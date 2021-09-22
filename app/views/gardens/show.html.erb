@@ -1,0 +1,6 @@
+<h1><%= @garden.name %></h1><br>
+
+<h3>Plants in plots with less than 100 days:</h3>
+<% @garden.plants_harvest_less_than_100.each do |plant| %>
+  <p><%= plant.name %></p>
+<% end %>

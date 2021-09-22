@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Garden do
+RSpec.describe "Garden Show Page" do
   before :each do
     @garden = Garden.create!(name: "Turing Community Garden", organic: true)
     @garden_2 = Garden.create!(name: "Turing Community Garden", organic: true)
@@ -16,13 +16,16 @@ RSpec.describe Garden do
     @cucumber = @plot_3.plants.create!(name: "Cucumber", description: "Cool cucumber", days_to_harvest: 70)
   end
 
-  describe 'relationships' do
-    it { should have_many(:plots) }
-  end
+  describe "#Story 3" do
+    it "displays a list of unique plants with less than 100 days to harvest that are included in that garden's plots" do
+      visit "/gardens/#{@garden.id}"
 
-  describe "#instance methods" do
-    it "can list only plants with unique names and less than 100 days to harvest" do
-      expect(@garden.plants_harvest_less_than_100.length).to eq(2)
+      expect(page).to have_content("Plants in plots with less than 100 days:")
+      expect(page).to have_content(@tomoto)
+      expect(page).to have_content(@squash.name)
+      expect(page).to have_no_content(@tomato_2)
+      expect(page).to have_no_content(@avocado)
+      expect(page).to have_no_content(@cucumber)
     end
   end
 end
